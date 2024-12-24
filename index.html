@@ -114,8 +114,8 @@
   </div>
 
   <div class="app-info">
-    <span>price-cal v1.0</span>
-    <span class="developer">พัฒนาโดย 1o1</span>
+    <span> </span>
+    <span class="developer">price-cal v1.0 พัฒนาโดย 1o1</span>
   </div>
 
   <script>
@@ -136,42 +136,40 @@
       const pricePerUnitB = priceB / quantityB;
       let resultText = "";
 
-      let diff; // ประกาศตัวแปร diff ไว้ข้างนอก if-else
-    if (pricePerUnitA < pricePerUnitB) {
+      let diff; 
+      if (pricePerUnitA < pricePerUnitB) {
         diff = pricePerUnitB - pricePerUnitA;
         const percent = ((diff / pricePerUnitB) * 100).toFixed(2);
         resultText = `สินค้า A ถูกกว่า ${diff.toFixed(2)} บาท (${percent}%)`;
-    } else if (pricePerUnitA > pricePerUnitB) {
+      } else if (pricePerUnitA > pricePerUnitB) {
         diff = pricePerUnitA - pricePerUnitB;
         const percent = ((diff / pricePerUnitA) * 100).toFixed(2);
         resultText = `สินค้า B ถูกกว่า ${diff.toFixed(2)} บาท (${percent}%)`;
-    } else {
+      } else {
         resultText = "สินค้า A และ B คุ้มค่าเท่ากัน";
-        diff = 0; // กำหนด diff เป็น 0 เมื่อราคาเท่ากัน
-    }
+        diff = 0; 
+      }
 
-    // 1. ผลต่างของราคาต่อหน่วย คูณด้วย ปริมาณสินค้า
-    let totalPriceDiff = diff * Math.max(quantityA, quantityB); // ใช้ diff ที่คำนวณได้จาก if-else
-    let percent = 0; // กำหนดค่าเริ่มต้นให้ percent
-    if (Math.max(pricePerUnitA, pricePerUnitB) !== 0) { // ป้องกันการหารด้วยศูนย์
+      
+      let totalPriceDiff = diff * Math.max(quantityA, quantityB); 
+      let percent = 0; 
+      if (Math.max(pricePerUnitA, pricePerUnitB) !== 0) { 
         percent = ((diff / Math.max(pricePerUnitA, pricePerUnitB)) * 100).toFixed(2);
-    }
+      }
 
-    // ตรวจสอบว่า totalPriceDiff ไม่เกิน priceDiff
-    if (totalPriceDiff <= priceDiff) {
+      
+      let priceDiff = Math.abs(priceA - priceB);
+      if (totalPriceDiff <= priceDiff) {
         resultText += `<br>ผลต่างราคาต่อหน่วย x ปริมาณ = ${totalPriceDiff.toFixed(2)} บาท (${percent}%)`;
+      }
+
+      
+      resultText += `<br>ส่วนต่างราคาสินค้า = ${priceDiff.toFixed(2)} บาท`;
+
+      result.innerHTML = resultText;
     }
 
-    // 2. ผลต่างของราคาสินค้า A ลบด้วยราคาสินค้า B
-    let priceDiff = Math.abs(priceA - priceB);
-    resultText += `<br>ส่วนต่างราคาสินค้า = ${priceDiff.toFixed(2)} บาท`;
 
-    result.innerHTML = resultText;
-}
-    
-
-
-    
     const inputs = document.querySelectorAll('input[type="number"]');
     inputs.forEach(input => {
       input.addEventListener('input', () => {
@@ -188,10 +186,16 @@
           input.value = 1;
         }
       });
-      result.textContent = "กรุณากรอกข้อมูลให้ครบทั้งสองสินค้า";
+      
+      let totalDiff = Math.abs(priceA.value - priceB.value);
+      resultText = "สินค้า A และ B คุ้มค่าเท่ากัน";
+      resultText += `<br>ผลต่างราคาต่อหน่วย x ปริมาณ = 0.00 บาท (0.00%)`;
+      resultText += `<br>ส่วนต่างราคาสินค้า = ${totalDiff.toFixed(2)} บาท`;
+
+      result.innerHTML = resultText;
     });
 
-    // เก็บค่าข้อมูลล่าสุดใน localStorage
+    
     function saveData() {
       localStorage.setItem('priceA', priceA.value);
       localStorage.setItem('quantityA', quantityA.value);
@@ -199,7 +203,7 @@
       localStorage.setItem('quantityB', quantityB.value);
     }
 
-    // โหลดค่าข้อมูลล่าสุดเมื่อเปิดหน้าเว็บ
+    
     function loadData() {
       priceA.value = localStorage.getItem('priceA') || 0;
       quantityA.value = localStorage.getItem('quantityA') || 1;
@@ -208,7 +212,7 @@
       comparePrice();
     }
 
-    // โหลดข้อมูลเมื่อเปิดหน้าเว็บ
+    
     loadData();
   </script>
 </body>
