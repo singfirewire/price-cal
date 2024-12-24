@@ -136,39 +136,34 @@
       const pricePerUnitB = priceB / quantityB;
       let resultText = "";
 
-      let diff; 
-      if (pricePerUnitA < pricePerUnitB) {
+
+
+      
+      let diff;
+    if (pricePerUnitA < pricePerUnitB) {
         diff = pricePerUnitB - pricePerUnitA;
         const percent = ((diff / pricePerUnitB) * 100).toFixed(2);
-        resultText = `สินค้า A ถูกกว่า ${diff.toFixed(2)} บาท (${percent}%)`;
-      } else if (pricePerUnitA > pricePerUnitB) {
+        resultText = `สินค้า A ถูกกว่า (${percent}%)`; 
+    } else if (pricePerUnitA > pricePerUnitB) {
         diff = pricePerUnitA - pricePerUnitB;
         const percent = ((diff / pricePerUnitA) * 100).toFixed(2);
-        resultText = `สินค้า B ถูกกว่า ${diff.toFixed(2)} บาท (${percent}%)`;
-      } else {
+        resultText = `สินค้า B ถูกกว่า (${percent}%)`; 
+    } else {
         resultText = "สินค้า A และ B คุ้มค่าเท่ากัน";
         diff = 0; 
-      }
-
-      
-      let totalPriceDiff = diff * Math.max(quantityA, quantityB); 
-      let percent = 0; 
-      if (Math.max(pricePerUnitA, pricePerUnitB) !== 0) { 
-        percent = ((diff / Math.max(pricePerUnitA, pricePerUnitB)) * 100).toFixed(2);
-      }
-
-      
-      let priceDiff = Math.abs(priceA - priceB);
-      if (totalPriceDiff <= priceDiff) {
-        resultText += `<br>ผลต่างราคาต่อหน่วย x ปริมาณ = ${totalPriceDiff.toFixed(2)} บาท (${percent}%)`;
-      }
-
-      
-      resultText += `<br>ส่วนต่างราคาสินค้า = ${priceDiff.toFixed(2)} บาท`;
-
-      result.innerHTML = resultText;
     }
 
+    // แสดงผลต่างราคาต่อหน่วย
+    resultText += `<br>คิดราคา/ปริมาณเป็น ${diff.toFixed(2)} บาท`; 
+
+    // แสดงส่วนต่างราคาสินค้า
+    let priceDiff = Math.abs(priceA - priceB);
+    resultText += `<br>คิดดีๆ เงินจะเหลือ = ${priceDiff.toFixed(2)} บาท ถ้าซื้อของน้อย`;
+
+    result.innerHTML = resultText;
+}
+
+    
 
     const inputs = document.querySelectorAll('input[type="number"]');
     inputs.forEach(input => {
