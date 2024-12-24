@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>เปรียบเทียบราคาสินค้า</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      background-color: #f4f4f4;
+      padding-top: 20px;
+      flex-direction: column;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      width: 100%;
+      margin-bottom: auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .product {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .input-group {
+      width: 45%;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      box-sizing: border-box;
+    }
+
+    #result {
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      text-align: center;
+    }
+
+    #clearBtn {
+      background-color: #f44336;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      display: block;
+      margin: 20px auto;
+    }
+
+    .app-info {
+      text-align: center;
+      font-size: 12px;
+      color: #777;
+      margin-top: 20px;
+    }
+
+    .developer {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>เปรียบเทียบราคาสินค้า</h1>
+    <div class="product">
+      <div class="input-group">
+        <h2>ฝ่ายแดง</h2>
+        <label for="priceA">ราคา:</label>
+        <input type="number" id="priceA" value="1" min="1">
+        <label for="quantityA">ปริมาณ:</label>
+        <input type="number" id="quantityA" value="1" min="1">
+      </div>
+      <div class="input-group">
+        <h2>ฝ่ายน้ำเงิน</h2>
+        <label for="priceB">ราคา:</label>
+        <input type="number" id="priceB" value="1" min="1">
+        <label for="quantityB">ปริมาณ:</label>
+        <input type="number" id="quantityB" value="1" min="1">
+      </div>
+    </div>
+    <div id="result">
+      กรุณากรอกข้อมูลให้ครบทั้งสองฝ่าย
+    </div>
+    <button id="clearBtn">ล้างข้อมูล</button>
+</div>
+
+  <div class="app-info"><span class="developer">มั่วๆโดย 1o1</span>
+  </div>
+
+  <script>
+    const priceA = document.getElementById('priceA');
+    const quantityA = document.getElementById('quantityA');
+    const priceB = document.getElementById('priceB');
+    const quantityB = document.getElementById('quantityB');
+    const result = document.getElementById('result');
+    const clearBtn = document.getElementById('clearBtn');
+
+    const budget = 18000; // สมมติเงินที่มีอยู่ 18,000 บาท
+
+    function comparePrice() {
+      const priceA = parseFloat(document.getElementById('priceA').value);
+      const quantityA = parseFloat(document.getElementById('quantityA').value);
+      const priceB = parseFloat(document.getElementById('priceB').value);
+      const quantityB = parseFloat(document.getElementById('quantityB').value);
+
+      const pricePerUnitA = priceA / quantityA;
+      const pricePerUnitB = priceB / quantityB;
+      let resultText = "";
+
+      let diff;
+      if (pricePerUnitA < pricePerUnitB) {
+        diff = pricePerUnitB - pricePerUnitA;
+        const percent = ((diff / pricePerUnitB) * 100).toFixed(2);
+        const saving = diff * quantityA;
+
+        resultText = `<span style="font-size: 20px; font-weight: bold; color: red;">ฝ่ายแดงถูกกว่า (${percent}%)</span><br>`;
+        resultText += `ปริมาณที่เพิ่มขึ้นคิดเป็นเงิน ${diff.toFixed(2)} บาท<br>`;
+        //resultText += `คิดดีๆ เงินจะเหลือ = ${(budget + saving).toFixed(2)} บาท ถ้าซื้อชิ้นน้อย<br>`;
+      } else if (pricePerUnitA > pricePerUnitB) {
+        diff = pricePerUnitA - pricePerUnitB;
+        const percent = ((diff / pricePerUnitA) * 100).toFixed(2);
+        const saving = diff * quantityB;
+
+        resultText = `<span style="font-size: 20px; font-weight: bold; color: blue;">ฝ่ายน้ำเงินถูกกว่า (${percent}%)</span><br>`;
+        resultText += `ปริมาณที่เพิ่มขึ้นคิดเป็นเงิน ${diff.toFixed(2)} บาท<br>`;
+        //resultText += `คิดดีๆ เงินจะเหลือ = ${(budget + saving).toFixed(2)} บาท ถ้าซื้อชิ้นน้อย<br>`;
+      } else {
+        resultText = `<span style="font-size: 20px; font-weight: bold;">ราคาเท่ากันเลยจ๊ะ</span><br>`;
+      }
+
+      // 2. ผลต่างของราคาสินค้า A ลบด้วยราคาสินค้า B
+      let priceDiff = Math.abs(priceA - priceB);
+      resultText += `แลกกับมีเงินเหลือให้ลูกกินขนม = ${priceDiff.toFixed(2)} บาท`;
+
+      result.innerHTML = resultText;
+    }
+
+    const inputs = document.querySelectorAll('input[type="number"]');
+    inputs.forEach(input => {
+      input.addEventListener('input', () => {
+        comparePrice();
+        saveData();
+      });
+    });
+
+    clearBtn.addEventListener('click', () => {
+      inputs.forEach(input => {
+        if (input.id.startsWith('price')) {
+          input.value = 0;
+        } else {
+          input.value = 1;
+        }
+      });
+
+      let totalDiff = Math.abs(priceA.value - priceB.value);
+      resultText = `<span style="font-size: 20px; font-weight: bold;">ฝ่ายแดง และ ฝ่ายน้ำเงิน คุ้มค่าเท่ากัน</span><br>`;
+      resultText += `ตีเป็นราคาต่อปริมาณเป็น 0.00 บาท<br>`;
+      //resultText += `คิดดีๆ เงินจะเหลือ = ${budget.toFixed(2)} บาท ถ้าซื้อชิ้นน้อย<br>`;
+      resultText += `ส่วนต่างราคาสินค้า = ${totalDiff.toFixed(2)} บาท`;
+
+      result.innerHTML = resultText;
+    });
+
+    function saveData() {
+      localStorage.setItem('priceA', priceA.value);
+      localStorage.setItem('quantityA', quantityA.value);
+      localStorage.setItem('priceB', priceB.value);
+      localStorage.setItem('quantityB', quantityB.value);
+    }
+
+    function loadData() {
+      priceA.value = localStorage.getItem('priceA') || 0;
+      quantityA.value = localStorage.getItem('quantityA') || 1;
+      priceB.value = localStorage.getItem('priceB') || 0;
+      quantityB.value = localStorage.getItem('quantityB') || 1;
+      comparePrice();
+    }
+
+    loadData();
+  </script>
+</body>
+
+</html>
