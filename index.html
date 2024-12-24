@@ -9,9 +9,10 @@
             font-family: sans-serif;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start; /* จัดตำแหน่งเนื้อหาชิดด้านบน */
             min-height: 100vh;
             background-color: #f4f4f4;
+            padding-top: 20px; /* เพิ่มระยะห่างด้านบน */
         }
 
         .container {
@@ -70,10 +71,25 @@
             display: block;
             margin: 20px auto;
         }
+
+        .app-info {
+            text-align: center;
+            font-size: 12px;
+            color: #777;
+            margin-bottom: 10px;
+        }
+
+        .developer {
+            display: block;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <div class="app-info">
+            <span>เปรียบเทียบราคาสินค้า v1.0</span>
+            <span class="developer">พัฒนาโดย 1o1</span>
+        </div>
         <h1>เปรียบเทียบราคาสินค้า</h1>
         <div class="product">
             <div class="input-group">
