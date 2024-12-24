@@ -89,24 +89,28 @@
 </head>
 
 <body>
-  <div class="container">
-    <blockquote>&nbsp; </blockquote>
-<div class="product">
-    <div class="input-group">
-        <h2>สินค้า A</h2>
+
+
+  
+  <<div class="container">
+    <div class="product">
+      <div class="input-group">
         <label for="priceA">ราคา:</label>
-        <input type="number" id="priceA" value="0">
+        <input type="number" id="priceA" value="0" min="0"> 
         <label for="quantityA">ปริมาณ:</label>
-        <input type="number" id="quantityA" value="1">
+        <input type="number" id="quantityA" value="1" min="0"> 
       </div>
       <div class="input-group">
-        <h2>สินค้า B</h2>
         <label for="priceB">ราคา:</label>
-        <input type="number" id="priceB" value="0">
+        <input type="number" id="priceB" value="0" min="0"> 
         <label for="quantityB">ปริมาณ:</label>
-        <input type="number" id="quantityB" value="1">
+        <input type="number" id="quantityB" value="1" min="0">
       </div>
     </div>
+  </div>
+
+
+    
     <div id="result">
       กรุณากรอกข้อมูลให้ครบทั้งสองสินค้า
     </div>
