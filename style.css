@@ -46,3 +46,21 @@ input[type="number"] {
     border-radius: 3px;
     cursor: pointer;
 }
+body {
+    /* ... (CSS เดิม) ... */
+    align-items: flex-start; /* จัดตำแหน่งเนื้อหาชิดด้านบน */
+    padding-top: 20px; /* เพิ่มระยะห่างด้านบน */
+}
+
+/* ... (CSS เดิม) ... */
+
+.app-info {
+    text-align: center;
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.developer {
+    display: block; 
+}
