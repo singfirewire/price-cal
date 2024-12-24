@@ -89,28 +89,24 @@
 </head>
 
 <body>
-
-
-  
-  <<div class="container">
+  <div class="container">
+    <h1>เปรียบเทียบราคาสินค้า</h1>
     <div class="product">
       <div class="input-group">
+        <h2>สินค้า A</h2>
         <label for="priceA">ราคา:</label>
         <input type="number" id="priceA" value="0" min="0"> 
         <label for="quantityA">ปริมาณ:</label>
         <input type="number" id="quantityA" value="1" min="0"> 
       </div>
       <div class="input-group">
+        <h2>สินค้า B</h2>
         <label for="priceB">ราคา:</label>
         <input type="number" id="priceB" value="0" min="0"> 
         <label for="quantityB">ปริมาณ:</label>
-        <input type="number" id="quantityB" value="1" min="0">
+        <input type="number" id="quantityB" value="1" min="0"> 
       </div>
     </div>
-  </div>
-
-
-    
     <div id="result">
       กรุณากรอกข้อมูลให้ครบทั้งสองสินค้า
     </div>
@@ -118,8 +114,8 @@
   </div>
 
   <div class="app-info">
-  
-    <span class="developer">price-cal v1.0 พัฒนาโดย 1o1</span>
+    <span>price-cal v1.0</span>
+    <span class="developer">พัฒนาโดย 1o1</span>
   </div>
 
   <script>
@@ -132,33 +128,33 @@
 
 
     function comparePrice() {
-    const priceA = parseFloat(document.getElementById('priceA').value); // แปลงเป็นตัวเลข
-    const quantityA = parseFloat(document.getElementById('quantityA').value); // แปลงเป็นตัวเลข
-    const priceB = parseFloat(document.getElementById('priceB').value); // แปลงเป็นตัวเลข
-    const quantityB = parseFloat(document.getElementById('quantityB').value); // แปลงเป็นตัวเลข
+      const priceA = parseFloat(document.getElementById('priceA').value); // แปลงเป็นตัวเลข
+      const quantityA = parseFloat(document.getElementById('quantityA').value); // แปลงเป็นตัวเลข
+      const priceB = parseFloat(document.getElementById('priceB').value); // แปลงเป็นตัวเลข
+      const quantityB = parseFloat(document.getElementById('quantityB').value); // แปลงเป็นตัวเลข
 
-    const pricePerUnitA = priceA / quantityA;
-    const pricePerUnitB = priceB / quantityB;
-    let resultText = "";
+      const pricePerUnitA = priceA / quantityA;
+      const pricePerUnitB = priceB / quantityB;
+      let resultText = "";
 
-    const priceDiff = Math.abs(priceA - priceB); // คำนวณส่วนต่างราคา (ไม่ติดลบ)
+      const priceDiff = Math.abs(priceA - priceB); // คำนวณส่วนต่างราคา (ไม่ติดลบ)
 
-    if (pricePerUnitA < pricePerUnitB) {
+      if (pricePerUnitA < pricePerUnitB) {
         const diff = pricePerUnitB - pricePerUnitA;
         const percent = ((diff / pricePerUnitB) * 100).toFixed(2);
         resultText = `สินค้า A ถูกกว่า ${diff.toFixed(2)} บาท (${percent}%)`;
-    } else if (pricePerUnitA > pricePerUnitB) {
+      } else if (pricePerUnitA > pricePerUnitB) {
         const diff = pricePerUnitA - pricePerUnitB;
         const percent = ((diff / pricePerUnitA) * 100).toFixed(2);
         resultText = `สินค้า B ถูกกว่า ${diff.toFixed(2)} บาท (${percent}%)`;
-    } else {
+      } else {
         resultText = "สินค้า A และ B คุ้มค่าเท่ากัน";
+      }
+
+      resultText += `<br>มีส่วนต่างราคา ${priceDiff.toFixed(2)} บาท`; // เพิ่มส่วนต่างราคา
+
+      result.innerHTML = resultText; // ใช้ innerHTML เพื่อแสดงผล HTML
     }
-
-    resultText += `<br>มีส่วนต่างราคา ${priceDiff.toFixed(2)} บาท`; // เพิ่มส่วนต่างราคา
-
-    result.innerHTML = resultText; // ใช้ innerHTML เพื่อแสดงผล HTML
-}
 
     priceA.addEventListener('input', comparePrice);
     quantityA.addEventListener('input', comparePrice);
