@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เปรียบเทียบราคาสินค้า</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>เปรียบเทียบราคาสินค้า</h1>
+        <div class="product">
+            <h2>สินค้า A</h2>
+            <div class="input-group">
+                <label for="priceA">ราคา:</label>
+                <input type="number" id="priceA" value="0">
+            </div>
+            <div class="input-group">
+                <label for="quantityA">ปริมาณ:</label>
+                <input type="number" id="quantityA" value="1">
+            </div>
+        </div>
+        <div class="product">
+            <h2>สินค้า B</h2>
+            <div class="input-group">
+                <label for="priceB">ราคา:</label>
+                <input type="number" id="priceB" value="0">
+            </div>
+            <div class="input-group">
+                <label for="quantityB">ปริมาณ:</label>
+                <input type="number" id="quantityB" value="1">
+            </div>
+        </div>
+        <div id="result">
+            กรุณากรอกข้อมูลให้ครบทั้งสองสินค้า
+        </div>
+        <button id="clearBtn">ล้างข้อมูล</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
