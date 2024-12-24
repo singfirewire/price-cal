@@ -93,29 +93,27 @@
     <h1>เปรียบเทียบราคาสินค้า</h1>
     <div class="product">
       <div class="input-group">
-        <h2>สินค้า A</h2>
+        <h2>ฝ่ายแดง</h2>
         <label for="priceA">ราคา:</label>
-        <input type="number" id="priceA" value="0" min="0">
+        <input type="number" id="priceA" value="1" min="1">
         <label for="quantityA">ปริมาณ:</label>
-        <input type="number" id="quantityA" value="1" min="0">
+        <input type="number" id="quantityA" value="1" min="1">
       </div>
       <div class="input-group">
-        <h2>สินค้า B</h2>
+        <h2>ฝ่ายน้ำเงิน</h2>
         <label for="priceB">ราคา:</label>
-        <input type="number" id="priceB" value="0" min="0">
+        <input type="number" id="priceB" value="1" min="1">
         <label for="quantityB">ปริมาณ:</label>
-        <input type="number" id="quantityB" value="1" min="0">
+        <input type="number" id="quantityB" value="1" min="1">
       </div>
     </div>
     <div id="result">
-      กรุณากรอกข้อมูลให้ครบทั้งสองสินค้า
+      กรุณากรอกข้อมูลให้ครบทั้งสองฝ่าย
     </div>
     <button id="clearBtn">ล้างข้อมูล</button>
-  </div>
+</div>
 
-  <div class="app-info">
-    <span>price-cal v1.0</span>
-    <span class="developer">พัฒนาโดย 1o1</span>
+  <div class="app-info"><span class="developer">มั่วๆโดย 1o1</span>
   </div>
 
   <script>
@@ -138,28 +136,30 @@
       const pricePerUnitB = priceB / quantityB;
       let resultText = "";
 
-      // 1. ผลต่างของราคาต่อหน่วย คูณด้วย ปริมาณสินค้า
-      let diff = Math.abs(pricePerUnitA - pricePerUnitB);
-      let totalPriceDiff = diff * Math.max(quantityA, quantityB);
-      let percent = ((diff / Math.max(pricePerUnitA, pricePerUnitB)) * 100).toFixed(2);
-
+      let diff;
       if (pricePerUnitA < pricePerUnitB) {
-        const saving = diff * quantityA; 
-        resultText = `<span style="font-size: 20px; font-weight: bold;">สินค้า A ถูกกว่า (${percent}%)</span><br>`;
-        resultText += `ตีเป็นราคาต่อปริมาณเป็น ${diff.toFixed(2)} บาท<br>`;
-        resultText += `คิดดีๆ เงินจะเหลือ = ${(budget + saving).toFixed(2)} บาท ถ้าซื้อชิ้นน้อย<br>`;
+        diff = pricePerUnitB - pricePerUnitA;
+        const percent = ((diff / pricePerUnitB) * 100).toFixed(2);
+        const saving = diff * quantityA;
+
+        resultText = `<span style="font-size: 20px; font-weight: bold; color: red;">ฝ่ายแดงถูกกว่า (${percent}%)</span><br>`;
+        resultText += `ปริมาณที่เพิ่มขึ้นคิดเป็นเงิน ${diff.toFixed(2)} บาท<br>`;
+        //resultText += `คิดดีๆ เงินจะเหลือ = ${(budget + saving).toFixed(2)} บาท ถ้าซื้อชิ้นน้อย<br>`;
       } else if (pricePerUnitA > pricePerUnitB) {
+        diff = pricePerUnitA - pricePerUnitB;
+        const percent = ((diff / pricePerUnitA) * 100).toFixed(2);
         const saving = diff * quantityB;
-        resultText = `<span style="font-size: 20px; font-weight: bold;">สินค้า B ถูกกว่า (${percent}%)</span><br>`;
-        resultText += `ตีเป็นราคาต่อปริมาณเป็น ${diff.toFixed(2)} บาท<br>`;
-        resultText += `คิดดีๆ เงินจะเหลือ = ${(budget + saving).toFixed(2)} บาท ถ้าซื้อชิ้นน้อย<br>`;
+
+        resultText = `<span style="font-size: 20px; font-weight: bold; color: blue;">ฝ่ายน้ำเงินถูกกว่า (${percent}%)</span><br>`;
+        resultText += `ปริมาณที่เพิ่มขึ้นคิดเป็นเงิน ${diff.toFixed(2)} บาท<br>`;
+        //resultText += `คิดดีๆ เงินจะเหลือ = ${(budget + saving).toFixed(2)} บาท ถ้าซื้อชิ้นน้อย<br>`;
       } else {
-        resultText += `<span style="font-size: 20px; font-weight: bold;">สินค้า A และ B คุ้มค่าเท่ากัน</span><br>`;
+        resultText = `<span style="font-size: 20px; font-weight: bold;">ราคาเท่ากันเลยจ๊ะ</span><br>`;
       }
 
       // 2. ผลต่างของราคาสินค้า A ลบด้วยราคาสินค้า B
       let priceDiff = Math.abs(priceA - priceB);
-      resultText += `ส่วนต่างราคาสินค้า = ${priceDiff.toFixed(2)} บาท`;
+      resultText += `แลกกับมีเงินเหลือให้ลูกกินขนม = ${priceDiff.toFixed(2)} บาท`;
 
       result.innerHTML = resultText;
     }
@@ -180,7 +180,14 @@
           input.value = 1;
         }
       });
-      result.textContent = "กรุณากรอกข้อมูลให้ครบทั้งสองสินค้า";
+
+      let totalDiff = Math.abs(priceA.value - priceB.value);
+      resultText = `<span style="font-size: 20px; font-weight: bold;">ฝ่ายแดง และ ฝ่ายน้ำเงิน คุ้มค่าเท่ากัน</span><br>`;
+      resultText += `ตีเป็นราคาต่อปริมาณเป็น 0.00 บาท<br>`;
+      //resultText += `คิดดีๆ เงินจะเหลือ = ${budget.toFixed(2)} บาท ถ้าซื้อชิ้นน้อย<br>`;
+      resultText += `ส่วนต่างราคาสินค้า = ${totalDiff.toFixed(2)} บาท`;
+
+      result.innerHTML = resultText;
     });
 
     function saveData() {
