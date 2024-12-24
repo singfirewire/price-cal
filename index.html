@@ -139,19 +139,20 @@
 
 
       
-      let diff;
-    if (pricePerUnitA < pricePerUnitB) {
-        diff = pricePerUnitB - pricePerUnitA;
+ if (pricePerUnitA < pricePerUnitB) {
+        const diff = pricePerUnitB - pricePerUnitA;
         const percent = ((diff / pricePerUnitB) * 100).toFixed(2);
-        resultText = `สินค้า A ถูกกว่า (${percent}%)`; 
+        const saving = diff * quantityA; // คำนวณเงินที่ประหยัดได้
+        resultText = `<span style="font-size: 20px; font-weight: bold;">สินค้า A ถูกกว่า (${percent}%)</span><br>`; // เพิ่ม style ให้ตัวใหญ่และเด่น
+        resultText += `ตีเป็นราคาต่อปริมาณเป็น ${diff.toFixed(2)} บาท<br>`;
+        resultText += `คิดดีๆ เงินจะเหลือ = ${(budget + saving).toFixed(2)} บาท ถ้าซื้อชิ้นน้อย`; 
     } else if (pricePerUnitA > pricePerUnitB) {
-        diff = pricePerUnitA - pricePerUnitB;
-        const percent = ((diff / pricePerUnitA) * 100).toFixed(2);
-        resultText = `สินค้า B ถูกกว่า (${percent}%)`; 
+        // ... (โค้ดสำหรับกรณีสินค้า B ถูกกว่า) ...
     } else {
-        resultText = "ราคาเท่ากันเลยจ๊ะ";
-        diff = 0; 
+        // ... (โค้ดสำหรับกรณีสินค้า A และ B ราคาเท่ากัน) ...
     }
+
+
 
     // แสดงผลต่างราคาต่อหน่วย
     resultText += `<br>ตีเป็นราคาต่อปริมาณเป็น ${diff.toFixed(2)} บาท`; 
