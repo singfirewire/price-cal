@@ -149,16 +149,16 @@
         const percent = ((diff / pricePerUnitA) * 100).toFixed(2);
         resultText = `สินค้า B ถูกกว่า (${percent}%)`; 
     } else {
-        resultText = "สินค้า A และ B คุ้มค่าเท่ากัน";
+        resultText = "ราคาเท่ากันเลยจ๊ะ";
         diff = 0; 
     }
 
     // แสดงผลต่างราคาต่อหน่วย
-    resultText += `<br>คิดราคา/ปริมาณเป็น ${diff.toFixed(2)} บาท`; 
+    resultText += `<br>ตีเป็นราคาต่อปริมาณเป็น ${diff.toFixed(2)} บาท`; 
 
     // แสดงส่วนต่างราคาสินค้า
     let priceDiff = Math.abs(priceA - priceB);
-    resultText += `<br>คิดดีๆ เงินจะเหลือ = ${priceDiff.toFixed(2)} บาท ถ้าซื้อของน้อย`;
+    resultText += `<br>คิดดีๆ เงินจะเหลือ = ${priceDiff.toFixed(2)} บาท ถ้าซื้อชิ้นน้อย`;
 
     result.innerHTML = resultText;
 }
