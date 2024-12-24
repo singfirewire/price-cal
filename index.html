@@ -95,16 +95,16 @@
       <div class="input-group">
         <h2>สินค้า A</h2>
         <label for="priceA">ราคา:</label>
-        <input type="number" id="priceA" value="0" min="0"> 
+        <input type="number" id="priceA" value="0" min="0">
         <label for="quantityA">ปริมาณ:</label>
-        <input type="number" id="quantityA" value="1" min="0"> 
+        <input type="number" id="quantityA" value="1" min="0">
       </div>
       <div class="input-group">
         <h2>สินค้า B</h2>
         <label for="priceB">ราคา:</label>
-        <input type="number" id="priceB" value="0" min="0"> 
+        <input type="number" id="priceB" value="0" min="0">
         <label for="quantityB">ปริมาณ:</label>
-        <input type="number" id="quantityB" value="1" min="0"> 
+        <input type="number" id="quantityB" value="1" min="0">
       </div>
     </div>
     <div id="result">
@@ -126,45 +126,52 @@
     const result = document.getElementById('result');
     const clearBtn = document.getElementById('clearBtn');
 
+    function comparePrice() {
+      const priceA = parseFloat(document.getElementById('priceA').value);
+      const quantityA = parseFloat(document.getElementById('quantityA').value);
+      const priceB = parseFloat(document.getElementById('priceB').value);
+      const quantityB = parseFloat(document.getElementById('quantityB').value);
 
-    
+      const pricePerUnitA = priceA / quantityA;
+      const pricePerUnitB = priceB / quantityB;
+      let resultText = "";
 
-   function comparePrice() {
-    const priceA = parseFloat(document.getElementById('priceA').value);
-    const quantityA = parseFloat(document.getElementById('quantityA').value);
-    const priceB = parseFloat(document.getElementById('priceB').value);
-    const quantityB = parseFloat(document.getElementById('quantityB').value);
+      // 1. ผลต่างของราคาต่อหน่วย คูณด้วย ปริมาณสินค้า
+      let diff = Math.abs(pricePerUnitA - pricePerUnitB);
+      let totalPriceDiff = diff * Math.max(quantityA, quantityB);
+      let percent = ((diff / Math.max(pricePerUnitA, pricePerUnitB)) * 100).toFixed(2);
 
-    const pricePerUnitA = priceA / quantityA;
-    const pricePerUnitB = priceB / quantityB;
-    let resultText = "";
+      if (pricePerUnitA < pricePerUnitB) {
+        resultText += `สินค้า A ประหยัดกว่า = ${totalPriceDiff.toFixed(2)} บาท (${percent}%)<br>`;
+      } else if (pricePerUnitA > pricePerUnitB) {
+        resultText += `สินค้า B ประหยัดกว่า = ${totalPriceDiff.toFixed(2)} บาท (${percent}%)<br>`;
+      } else {
+        resultText += "สินค้า A และ B คุ้มค่าเท่ากัน<br>";
+      }
 
-    // 1. ผลต่างของราคาต่อหน่วย คูณด้วย ปริมาณสินค้า
-    let diff = Math.abs(pricePerUnitA - pricePerUnitB); // คำนวณส่วนต่างราคาต่อหน่วย
-    let totalPriceDiff = diff * Math.max(quantityA, quantityB); // คูณด้วยปริมาณที่มากกว่า
-    let percent = ((diff / Math.max(pricePerUnitA, pricePerUnitB)) * 100).toFixed(2);
+      // 2. ผลต่างของราคาสินค้า A ลบด้วยราคาสินค้า B
+      let priceDiff = Math.abs(priceA - priceB);
+      resultText += `ส่วนต่างราคาสินค้า = ${priceDiff.toFixed(2)} บาท`;
 
-    resultText += `ผลต่างราคาต่อหน่วย x ปริมาณ = ${totalPriceDiff.toFixed(2)} บาท (${percent}%)<br>`;
+      result.innerHTML = resultText;
+    }
 
-    // 2. ผลต่างของราคาสินค้า A ลบด้วยราคาสินค้า B
-    let priceDiff = Math.abs(priceA - priceB);
-    resultText += `ส่วนต่างราคาสินค้า = ${priceDiff.toFixed(2)} บาท`;
-
-    result.innerHTML = resultText;
-}
-
-
-    
-    priceA.addEventListener('input', comparePrice);
-    quantityA.addEventListener('input', comparePrice);
-    priceB.addEventListener('input', comparePrice);
-    quantityB.addEventListener('input', comparePrice);
+    const inputs = document.querySelectorAll('input[type="number"]');
+    inputs.forEach(input => {
+      input.addEventListener('input', () => {
+        comparePrice();
+        saveData();
+      });
+    });
 
     clearBtn.addEventListener('click', () => {
-      priceA.value = 0;
-      quantityA.value = 1;
-      priceB.value = 0;
-      quantityB.value = 1;
+      inputs.forEach(input => {
+        if (input.id.startsWith('price')) {
+          input.value = 0;
+        } else {
+          input.value = 1;
+        }
+      });
       result.textContent = "กรุณากรอกข้อมูลให้ครบทั้งสองสินค้า";
     });
 
@@ -182,13 +189,8 @@
       quantityA.value = localStorage.getItem('quantityA') || 1;
       priceB.value = localStorage.getItem('priceB') || 0;
       quantityB.value = localStorage.getItem('quantityB') || 1;
-      comparePrice(); // คำนวณผลลัพธ์ทันทีเมื่อโหลดข้อมูล
+      comparePrice();
     }
-
-    priceA.addEventListener('input', saveData);
-    quantityA.addEventListener('input', saveData);
-    priceB.addEventListener('input', saveData);
-    quantityB.addEventListener('input', saveData);
 
     // โหลดข้อมูลเมื่อเปิดหน้าเว็บ
     loadData();
